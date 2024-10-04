@@ -1,0 +1,11 @@
+[tool.poetry]
+name = "roman_calculator"
+version = "1.0"
+description = "A calculator that works with Roman numerals."
+authors = "Malik Stuckey"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.0"
