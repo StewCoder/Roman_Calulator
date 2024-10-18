@@ -6,8 +6,8 @@
 // Description : Performs basic math operations using Roman numerals.
 //============================================================================
 """
-import sys
 import re
+import argparse
 
 """
 Convert a Roman numeral to an integer.
@@ -54,8 +54,8 @@ def int_to_roman(num):
         return "0 does not exist in Roman numerals."
     if num > 3999:
         return "You’re going to need a bigger calculator."
-    val = [1000, 900, 500, 400,100, 90, 50, 40, 10, 9, 5, 4,1]
-    syms = ["M", "CM", "D", "CD","C", "XC", "L", "XL","X", "IX", "V", "IV","I"]
+    val = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
+    syms = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"]
     roman_number = ''
     for i in range(len(val)):
         while num >= val[i]:
@@ -82,11 +82,10 @@ ValueError: If the input is not a valid Roman numeral expression.
 RuntimeError: Check cases for zero, negative results, fractions, or numbers larger than 3999.
 """
 def evaluate_expression(expression):
-    # Safely evaluate the mathematical expression
     try:
         result = eval(expression)
         return result
-    except:
+    except Exception:
         return "I don’t know how to read this."
 
 
@@ -102,12 +101,15 @@ python3 main.py "(VII + V) * II + I"
 XXV
 """
 def main():
-    if len(sys.argv) != 2:
-        print("I don’t know how to read this.")
-        return
-
-    input_expr = sys.argv[1].strip()
-    input_expr = input_expr.replace(' ', '')  # Remove spaces
+    # Setup argparse to handle input
+    parser = argparse.ArgumentParser(description='Roman Numeral Calculator')
+    
+    # Use `nargs='+'` to allow the entire expression to be treated as a single argument
+    parser.add_argument('expression', nargs='+', help='Mathematical expression with Roman numerals (e.g. (VII + V) * II + I)')
+    
+    # Parse command-line arguments
+    args = parser.parse_args()
+    input_expr = ' '.join(args.expression)  # Join the list of arguments into a single string
 
     # Replace Roman numerals with their integer values
     tokens = re.findall(r'[IVXLCDM]+|[+\-*/()]', input_expr)
